@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BinaryTree\BinaryTreeLib.csproj" />
+    <ProjectReference Include="..\PriorityQueue\PriorityQueueLib.csproj" />
   </ItemGroup>
 
 </Project>
