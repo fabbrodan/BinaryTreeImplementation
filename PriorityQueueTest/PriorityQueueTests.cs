@@ -2,6 +2,7 @@ using NUnit.Framework;
 using PriorityQueueLib;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PriorityQueueTest
 {
@@ -110,6 +111,78 @@ namespace PriorityQueueTest
             Assert.AreEqual(1, pQ.Pop());
             Assert.AreEqual(2, pQ.Pop());
             Assert.AreEqual(3, pQ.Pop());
+        }
+
+        [Test]
+        public void TestCustomDataType()
+        {
+            DummyTestObjectEmployee emp1 = new DummyTestObjectEmployee
+            {
+                Salary = 15000.00,
+                Name = "Bob Builder",
+                Department = "Construction"
+            };
+
+            DummyTestObjectEmployee emp2 = new DummyTestObjectEmployee
+            {
+                Salary = 25000.00,
+                Name = "Sally Supervisor",
+                Department = "HR"
+            };
+
+            DummyTestObjectEmployee emp3 = new DummyTestObjectEmployee
+            {
+                Salary = 55000.00,
+                Name = "Barry Boss",
+                Department = "Directors"
+            };
+
+            PriorityQueue<DummyTestObjectEmployee> pQ = new PriorityQueue<DummyTestObjectEmployee>();
+
+            pQ.Add(emp2);
+            pQ.Add(emp1);
+            pQ.Add(emp3);
+
+            Assert.AreEqual(emp3, pQ.Pop());
+            Assert.AreEqual(emp2, pQ.Pop());
+            Assert.AreEqual(emp1, pQ.Pop());
+        }
+    }
+
+    internal class DummyTestObjectEmployee : IComparable, IComparable<DummyTestObjectEmployee>
+    {
+        public double Salary { get; set; }
+        public string Name { get; set; }
+        public string Department { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is DummyTestObjectEmployee e)
+            {
+                if (e.Salary < Salary)
+                {
+                    return -1;
+                }
+                else if (Salary < e.Salary)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            return Int32.MinValue;
+        }
+
+        public int CompareTo(DummyTestObjectEmployee other)
+        {
+            if (other.Salary < Salary)
+            {
+                return -1;
+            }
+            else if (Salary < other.Salary)
+            {
+                return 1;
+            }
+            return 0;
         }
     }
 }
